@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vértice · Coctelería</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--card:#141414;--line:#2a2418;--gold:#c9a24b;--gold2:#e8cf8a;--text:#e9e4d8;--muted:#9a9384;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Montserrat',system-ui,sans-serif;font-weight:300;line-height:1.6}
+header{text-align:center;padding:64px 20px 36px;background:radial-gradient(ellipse at top,#221a0a 0%,var(--bg) 70%)}
+.logo{width:56px;height:56px;margin:0 auto 14px;display:block}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.6rem,9vw,4.5rem);letter-spacing:.35em;margin:0 0 0 .35em;font-weight:600;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{letter-spacing:.5em;text-transform:uppercase;font-size:.7rem;color:var(--muted);margin-top:6px}
+.rule{width:90px;height:1px;background:var(--gold);margin:22px auto 0}
+nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:10px 16px 30px}
+nav button{background:none;border:1px solid var(--line);color:var(--muted);padding:8px 20px;font:inherit;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border-radius:30px;transition:.25s}
+nav button:hover,nav button.on{border-color:var(--gold);color:var(--gold)}
+main{max-width:1150px;margin:0 auto;padding:0 20px 60px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden;transition:.3s}
+.card:hover{border-color:var(--gold);transform:translateY(-4px)}
+.ph{aspect-ratio:4/3;background:#0f0f0f;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph.empty{display:grid;place-items:center;color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:3rem;opacity:.5}
+.body{padding:18px 20px 22px}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:600;margin:0;color:var(--gold2)}
+.price{color:var(--gold);font-weight:500;white-space:nowrap}
+.desc{color:var(--muted);font-size:.85rem;margin:8px 0 0}
+.cat{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.none{text-align:center;color:var(--muted);padding:40px}
+footer{text-align:center;padding:30px 20px 50px;border-top:1px solid var(--line);color:var(--muted);font-size:.75rem;letter-spacing:.15em}
+footer button{background:none;border:0;color:#4a4436;cursor:pointer;font:inherit;margin-top:14px;letter-spacing:.15em}
+/* admin */
+#adm{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;overflow:auto;z-index:20;padding:20px}
+#adm.open{display:block}
+.panel{max-width:760px;margin:0 auto;background:#101010;border:1px solid var(--gold);padding:24px;border-radius:4px}
+.panel h2{font-family:'Cormorant Garamond',serif;color:var(--gold);margin:0 0 16px;font-size:1.8rem}
+label{display:block;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:12px 0 4px}
+input,textarea,select{width:100%;background:#0a0a0a;border:1px solid var(--line);color:var(--text);padding:10px;font:inherit;border-radius:3px}
+input:focus,textarea:focus{outline:none;border-color:var(--gold)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{background:var(--gold);color:#000;border:0;padding:10px 20px;font:inherit;font-weight:500;letter-spacing:.1em;cursor:pointer;border-radius:3px;margin:14px 8px 0 0}
+.btn.alt{background:none;color:var(--gold);border:1px solid var(--gold)}
+.btn.sm{padding:5px 12px;margin:0 0 0 6px;font-size:.75rem}
+.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.item img,.item .t{width:44px;height:44px;object-fit:cover;border-radius:3px;background:#1a1a1a}
+.item span{flex:1;font-size:.9rem}
+.hint{font-size:.75rem;color:var(--muted);margin-top:16px}
+@media(max-width:480px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <img src="/logo vertice png.png" class="logo" alt="Vértice Coctelería">
+  <div class="tag">Coctelería</div>
+  <div class="rule"></div>
+</header>
+<nav id="cats"></nav>
+<main><div class="grid" id="grid"></div></main>
+<footer>VÉRTICE · COCTELERÍA<br><button id="open-adm">Administrar</button></footer>
+
+<div id="adm"><div class="panel">
+  <h2>Administrar carta</h2>
+  <form id="f" onsubmit="return false">
+    <input type="hidden" id="id">
+    <label>Nombre</label><input id="nm" required>
+    <div class="two">
+      <div><label>Precio (COP)</label><input id="pr" type="number" min="0" step="500" required></div>
+      <div><label>Categoría</label><input id="ct" list="cl" placeholder="Ej: Clásicos"><datalist id="cl"></datalist></div>
+    </div>
+    <label>Descripción</label><textarea id="ds" rows="3"></textarea>
+    <label>Foto</label><input id="ph" type="file" accept="image/*">
+    <button class="btn" id="save">Guardar producto</button>
+    <button class="btn alt" id="clear" type="button">Limpiar</button>
+  </form>
+  <h2 style="margin-top:28px;font-size:1.4rem">Productos</h2>
+  <div id="list"></div>
+  <button class="btn alt" id="exp">Exportar copia</button>
+  <button class="btn alt" id="imp">Importar copia</button>
+  <button class="btn alt" id="close">Cerrar</button>
+  <input type="file" id="impf" accept=".json" hidden>
+  <p class="hint">Los cambios se guardan en este navegador. Usa «Exportar copia» para respaldarlos o llevarlos a otro dispositivo.</p>
+</div></div>
+
+<script>
+const PIN = "1234"; // Cambia esta clave de administrador
+const KEY = "vertice_menu_v1";
+const DEMO = [
+  {id:1,name:"Old Fashioned",price:32000,cat:"Clásicos",desc:"Bourbon, azúcar, amargo de angostura y twist de naranja.",img:""},
+  {id:2,name:"Negroni",price:30000,cat:"Clásicos",desc:"Ginebra, vermut rosso y Campari. Intenso y elegante.",img:""},
+  {id:3,name:"Vértice Gold",price:38000,cat:"De la casa",desc:"Ron añejo, miel de abejas, limón y espuma de jengibre.",img:""},
+  {id:4,name:"Noche Negra",price:36000,cat:"De la casa",desc:"Mezcal, licor de café, cacao y toque de sal.",img:""}
+];
+let items = load(), filter = "Todos";
+const $ = id => document.getElementById(id);
+function load(){ try{ const s=localStorage.getItem(KEY); return s?JSON.parse(s):DEMO.slice(); }catch(e){ return DEMO.slice(); } }
+function persist(){ try{ localStorage.setItem(KEY,JSON.stringify(items)); }catch(e){ alert("No se pudo guardar (almacenamiento lleno). Prueba con fotos más pequeñas."); } }
+const money = n => "$" + Number(n).toLocaleString("es-CO");
+const esc = s => String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  const cats = ["Todos", ...new Set(items.map(i=>i.cat).filter(Boolean))];
+  if(!cats.includes(filter)) filter = "Todos";
+  $("cats").innerHTML = cats.map(c=>`<button class="${c===filter?"on":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  const shown = items.filter(i=>filter==="Todos"||i.cat===filter);
+  $("grid").innerHTML = shown.length ? shown.map(i=>`
+    <article class="card">
+      <div class="ph ${i.img?"":"empty"}">${i.img?`<img src="${i.img}" alt="${esc(i.name)}" loading="lazy">`:"V"}</div>
+      <div class="body">
+        ${i.cat?`<div class="cat">${esc(i.cat)}</div>`:""}
+        <div class="row"><h3 class="name">${esc(i.name)}</h3><span class="price">${money(i.price)}</span></div>
+        <p class="desc">${esc(i.desc)}</p>
+      </div>
+    </article>`).join("") : `<p class="none">Aún no hay productos en esta categoría.</p>`;
+  $("cl").innerHTML = cats.slice(1).map(c=>`<option value="${esc(c)}">`).join("");
+  $("list").innerHTML = items.map(i=>`
+    <div class="item">${i.img?`<img src="${i.img}" alt="">`:`<div class="t"></div>`}
+      <span>${esc(i.name)} · ${money(i.price)}</span>
+      <button class="btn alt sm" data-e="${i.id}">Editar</button>
+      <button class="btn alt sm" data-d="${i.id}">Borrar</button>
+    </div>`).join("");
+}
+$("cats").onclick = e => { if(e.target.dataset.c){ filter=e.target.dataset.c; render(); } };
+
+// Admin
+$("open-adm").onclick = () => { if(prompt("Clave de administrador:")===PIN){ $("adm").classList.add("open"); } else alert("Clave incorrecta"); };
+$("close").onclick = () => $("adm").classList.remove("open");
+let imgData = "";
+function reset(){ $("f").reset(); $("id").value=""; imgData=""; }
+$("clear").onclick = reset;
+$("ph").onchange = e => {
+  const file = e.target.files[0]; if(!file) return;
+  const r = new FileReader();
+  r.onload = () => { const im = new Image(); im.onload = () => {
+    const s = Math.min(1, 700/im.width), c = document.createElement("canvas");
+    c.width = im.width*s; c.height = im.height*s;
+    c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+    imgData = c.toDataURL("image/jpeg",.78);
+  }; im.src = r.result; };
+  r.readAsDataURL(file);
+};
+$("save").onclick = () => {
+  if(!$("f").reportValidity()) return;
+  const id = Number($("id").value) || Date.now();
+  const old = items.find(i=>i.id===id);
+  const p = {id, name:$("nm").value.trim(), price:Number($("pr").value), cat:$("ct").value.trim(), desc:$("ds").value.trim(), img: imgData || (old?old.img:"")};
+  if(old) Object.assign(old,p); else items.push(p);
+  persist(); reset(); render();
+};
+$("list").onclick = e => {
+  const d = e.target.dataset;
+  if(d.d && confirm("¿Borrar este producto?")){ items = items.filter(i=>i.id!=d.d); persist(); render(); }
+  if(d.e){ const i = items.find(x=>x.id==d.e); $("id").value=i.id; $("nm").value=i.name; $("pr").value=i.price; $("ct").value=i.cat; $("ds").value=i.desc; imgData=""; $("adm").scrollTo(0,0); }
+};
+$("exp").onclick = () => {
+  const a = document.createElement("a");
+  a.href = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(items));
+  a.download = "vertice-carta.json"; a.click();
+};
+$("imp").onclick = () => $("impf").click();
+$("impf").onchange = e => {
+  const r = new FileReader();
+  r.onload = () => { try{ const d=JSON.parse(r.result); if(Array.isArray(d)){ items=d; persist(); render(); } }catch(x){ alert("Archivo no válido"); } };
+  if(e.target.files[0]) r.readAsText(e.target.files[0]);
+};
+render();
+</script>
+</body>
+</html>
